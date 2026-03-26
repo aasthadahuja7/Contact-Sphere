@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// talks to our express backend
+// in dev this falls back to localhost; in prod Vercel injects VITE_API_URL
 const api = axios.create({
-  baseURL: 'http://localhost:5001/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api',
 });
 
 // attach the jwt on every request if we have one
