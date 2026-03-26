@@ -8,7 +8,18 @@ dotenv.config();
 const app = express();
 
 // middlewares
-app.use(cors());
+// allow both local dev and your deployed vercel frontend
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  process.env.CLIENT_URL, // set this in Render env vars to your vercel URL
+].filter(Boolean);
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
 app.use(express.json({ limit: '5mb' })); // bumped limit for base64 images
 
 // quick health check
